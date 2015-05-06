@@ -85,8 +85,11 @@ function deviceReady() {
             comments: 0 
         }
 
-        jQuery.post('https://frozen-forest-6337.herokuapp.com/new-question', function(data){
-            alert('posted to /new-question');
+        $.post('https://frozen-forest-6337.herokuapp.com/new-question', data, function(result){
+            console.log('server result: ',result);
+            alert('posted to /new-question: ' + result);
+        }).fail(function(err){
+            alert('error from server: ' + err);
         });
         //var question = new Question();
 
@@ -114,39 +117,69 @@ function deviceReady() {
         $.mobile.changePage( $('#pg-question-single') );
         console.log("opening: " + qID);
 
-        var q = new Parse.Query(Question);
-        //console.log(q);
-
-        q.get(qID, {
-            success: function(results){
-                console.log(results);
-                resultQuestion = results;
+        $.getJSON('https://frozen-forest-6337.herokuapp.com/single-question?id='+qID, function(data){
+            if (data.length > 0){
+                resultQuestion = data[0];
+                console.log(resultQuestion);
                  $('#pg-question-single .question-details').html(
                     '<div id="question-map" data-id="' + qID + '"></div>\
                     <div class="question-single-all">\
                         <div class="question-all-text">\
-                            <span>'+ results.attributes.text + '</span>\
+                            <span>'+ resultQuestion.text + '</span>\
                         </div>\
                         <div class="yes-and-no">\
                             <div class="yes" data-id="' + qID + '">\
-                            <a href="#" data-id="' + qID + '">' + results.attributes.yes + '</a>\
+                            <a href="#" data-id="' + qID + '">' + resultQuestion.yes + '</a>\
                             </div>\
                             <div class="no" data-id="' + qID + '">\
-                            <a href="#" data-id="' + qID + '">' + results.attributes.no + '</a>\
+                            <a href="#" data-id="' + qID + '">' + resultQuestion.no + '</a>\
                             </div>\
                         </div>\
                     </div>\
                     <div class="comment-count"></div>\
                     <div class="ppls-comments"></div>\
                     <div class="question-comments-area"></div>');
-                 showQuestionMap(results.attributes.location.k, results.attributes.location.D);
-                 showComments(resultQuestion);
-                 newComment(results.id);
-            },
-            error: function(object, error){
-                alert("Error: " + error.code + " " + error.message);
+                 //showQuestionMap(results.attributes.location.k, results.attributes.location.D);
+                 //showComments(resultQuestion);
+                 newComment(qID);
+
             }
+            
         });
+
+        //var q = new Parse.Query(Question);
+        //console.log(q);
+
+        // q.get(qID, {
+        //     success: function(results){
+        //         console.log(results);
+        //         resultQuestion = results;
+        //          $('#pg-question-single .question-details').html(
+        //             '<div id="question-map" data-id="' + qID + '"></div>\
+        //             <div class="question-single-all">\
+        //                 <div class="question-all-text">\
+        //                     <span>'+ results.attributes.text + '</span>\
+        //                 </div>\
+        //                 <div class="yes-and-no">\
+        //                     <div class="yes" data-id="' + qID + '">\
+        //                     <a href="#" data-id="' + qID + '">' + results.attributes.yes + '</a>\
+        //                     </div>\
+        //                     <div class="no" data-id="' + qID + '">\
+        //                     <a href="#" data-id="' + qID + '">' + results.attributes.no + '</a>\
+        //                     </div>\
+        //                 </div>\
+        //             </div>\
+        //             <div class="comment-count"></div>\
+        //             <div class="ppls-comments"></div>\
+        //             <div class="question-comments-area"></div>');
+        //          showQuestionMap(results.attributes.location.k, results.attributes.location.D);
+        //          showComments(resultQuestion);
+        //          newComment(results.id);
+        //     },
+        //     error: function(object, error){
+        //         alert("Error: " + error.code + " " + error.message);
+        //     }
+        // });
         return false;
     });
     
@@ -330,27 +363,40 @@ function loadAllQuestions(){
     // $('#pg-question-list').on('load', function(){
 
         //alert('load questions');
-        // navigator.geolocation.getCurrentPosition(function(position) {
-        //     onSuccess(position, 'map-all'); // map area element ID is #map-all
-        // }, function(message) {
-        //     onFail(message);
-        // });
+        navigator.geolocation.getCurrentPosition(function(position) {
+            onSuccess(position, 'map-all'); // map area element ID is #map-all
+        }, function(message) {
+            onFail(message);
+        });
 
-        jQuery.getJSON('https://frozen-forest-6337.herokuapp.com/questions', function(data){
+        $.getJSON('https://frozen-forest-6337.herokuapp.com/questions', function(data){
             // success: function(results) {
                 //alert('success get JSON');
-                console.log(data);
+                //console.log(data);
                 $('#question-list').html('');
                 for (var i = data.length-1; i >= 0; i--){
                     var q = data[i];
+                    console.log(q._id, q);
                     $('#question-list').append(
                         '<div class="question-area">\
                             <div class="question-all">\
-                                <div class="question-all-text">\
-                                    <span>' + data[i].title + '</span>\
+                                <div class="question-all-text" data-id="' + q._id  + '">\
+                                    <span>' + q.text + '</span>\
                                 </div>\
+                                <div class="yes-and-no">\
+                                     <div class="yes" data-id="' + q._id  + '">\
+                                     <a href="#" class="yes-text" data-id="' + q._id  + '">' + q.yes + '</a>\
+                                     </div>\
+                                     <div class="no" data-id="' + q._id  + '">\
+                                     <a href="#" class="no-text" data-id="' + q._id  + '">' + q.no + '</a>\
+                                     </div>\
+                                </div>\
+                                <div class="comment-count" data-id="' + q._id  + '">'+ q.comments +' comments</div>\
                             </div>\
                         </div>');
+                if (i % 2 === 0){
+                         $('.question-area:nth-child(even)').addClass('area-white');
+                     } 
                 }
                 
             // },

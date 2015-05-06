@@ -10,31 +10,31 @@
 	<string>ASKII</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>EF8ABB154DFE2958E882A5CF559D3CE16004A47D</key>
-		<string>https://github.com/OhJia/ASKII.git</string>
+		<key>A4E2DCC5D7543D28F46FBA79557F6810A1E61375</key>
+		<string>https://github.com/OhJia/ASKII-phonegap.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>phonegap/platforms/ios/ASKII.xcodeproj</string>
+	<string>platforms/ios/ASKII.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>EF8ABB154DFE2958E882A5CF559D3CE16004A47D</key>
-		<string>../../../../..</string>
+		<key>A4E2DCC5D7543D28F46FBA79557F6810A1E61375</key>
+		<string>../../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/OhJia/ASKII.git</string>
+	<string>https://github.com/OhJia/ASKII-phonegap.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>EF8ABB154DFE2958E882A5CF559D3CE16004A47D</string>
+	<string>A4E2DCC5D7543D28F46FBA79557F6810A1E61375</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>EF8ABB154DFE2958E882A5CF559D3CE16004A47D</string>
+			<string>A4E2DCC5D7543D28F46FBA79557F6810A1E61375</string>
 			<key>IDESourceControlWCCName</key>
-			<string>ASKII</string>
+			<string>phonegap</string>
 		</dict>
 	</array>
 </dict>
